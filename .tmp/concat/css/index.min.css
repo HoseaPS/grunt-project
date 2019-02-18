@@ -33,3 +33,9 @@ p:nth-of-type(odd) {
 .invisivel {
 	display: none;
 }
+p {
+  color: grey;
+}
+h1 {
+  color: grey;
+}
