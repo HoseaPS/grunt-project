@@ -19,6 +19,7 @@
   "homepage": "https://github.com/HoseaPS/grunt-project#readme",
   "devDependencies": {
     "grunt": "^1.0.3",
+    "grunt-browser-sync": "^2.2.0",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-coffee": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",

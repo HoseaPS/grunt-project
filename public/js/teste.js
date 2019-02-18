@@ -1,7 +1,7 @@
 (function() {
   var nome;
 
-  nome = 'Oséias P. da Silva';
+  nome = 'Neyzao da Massa';
 
   console.log(nome);
 

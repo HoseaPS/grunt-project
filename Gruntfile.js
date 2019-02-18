@@ -5,24 +5,25 @@ module.exports = function(grunt) {
       public: {
         expand: true,
         cwd: "public",
-        src: "**",
+        src: ["**"],
         dest: "dist"
       }
     },
 
-    /* exclui a pasta dist */
     clean: {
       dist: {
         src: "dist"
+      },
+
+      compilados: {
+        src: ["dist/coffee", "dist/less"]
       }
     },
 
-    /* minifica e concatena os arquivos css e js */
     useminPrepare: {
       html: "dist/**/*.html"
     },
 
-    /* aponta para os novos arquivos concatenados e minificados */
     usemin: {
       html: "dist/**/*.html"
     },
@@ -46,7 +47,6 @@ module.exports = function(grunt) {
       imagens: {
         src: ["dist/img/**/*.{png,jpg,gif}"]
       },
-
       minificados: {
         src: ["dist/js/**/*.min.js", "dist/css/**/*.min.css"]
       }
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
           event: ["added", "changed"]
         },
         files: "public/coffee/**/*.coffee",
-        tasks: "coffee:compilar"
+        tasks: ["coffee:compilar", "default"]
       },
 
       less: {
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
           event: ["added", "changed"]
         },
         files: "public/less/**/*.less",
-        tasks: "less:compilar"
+        tasks: ["less:compilar", "default"]
       },
 
       js: {
@@ -102,24 +102,41 @@ module.exports = function(grunt) {
       js: {
         src: ["public/js/**/*.js"]
       }
+    },
+
+    browserSync: {
+      public: {
+        bsFiles: {
+          src: ["public/**/*"]
+        },
+        options: {
+          watchTask: true,
+          server: {
+            baseDir: "public"
+          }
+        }
+      }
     }
   });
 
-  //registrando task para exclusao e copia
-  grunt.registerTask("dist", ["clean", "copy"]);
+  //registrando task para minificação
 
-  //registrando task para minificação e concatenação
+  grunt.registerTask("dist", ["clean:dist", "copy", "clean:compilados"]);
+
   grunt.registerTask("minifica", [
     "useminPrepare",
     "concat",
     "uglify",
     "cssmin",
-    "rev",
+    "rev:imagens",
+    "rev:minificados",
     "usemin",
     "imagemin"
   ]);
 
-  // registrando default tasks
+  grunt.registerTask("server", ["browserSync", "watch"]);
+
+  // registrando tasks
   grunt.registerTask("default", ["dist", "minifica"]);
 
   // carregando tasks
@@ -135,4 +152,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-less");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-contrib-jshint");
+  grunt.loadNpmTasks("grunt-browser-sync");
 };
