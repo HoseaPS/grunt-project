@@ -10,6 +10,7 @@ module.exports = function(grunt) {
       }
     },
 
+    
     clean: {
       dist: {
         src: "dist"
